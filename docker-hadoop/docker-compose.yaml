@@ -2,7 +2,7 @@ version: '3'
 
 services:
   namenode:
-    image: timing2021/hadoop-namenode
+    image: timing2022/hadoop-namenode
    # build:
    #   context: ../
    #   dockerfile: namenode/Dockerfile
@@ -20,7 +20,7 @@ services:
       - 9000:9000
 
   datanode:
-    image: timing2021/hadoop-datanode
+    image: timing2022/hadoop-datanode
     # build:
     #   context: ../
     #   dockerfile: datanode/Dockerfile
@@ -37,7 +37,7 @@ services:
       - 9864:9864
   
   resourcemanager:
-    image: timing2021/hadoop-resourcemanager
+    image: timing2022/hadoop-resourcemanager
     container_name: resourcemanager
     networks:
       - hadoop
@@ -49,7 +49,7 @@ services:
       - 8088:8088
   
   nodemanager1:  ## 不知道为啥用 nodemanager 就报 confit 
-    image: timing2021/hadoop-nodemanager
+    image: timing2022/hadoop-nodemanager
     container_name: nodemanager
     networks:
       - hadoop
@@ -63,7 +63,7 @@ services:
       - 8042:8042
 
   historyserver:
-    image: timing2021/hadoop-historyserver
+    image: timing2022/hadoop-historyserver
     container_name: historyserver
     restart: always
     networks:

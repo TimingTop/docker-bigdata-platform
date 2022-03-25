@@ -1,4 +1,4 @@
-FROM timing2021/hadoop-base:1.0.0-hadoop3.2.2-java11
+FROM timing2022/hadoop-base:1.0.0-hadoop3.3.2-java11
 
 HEALTHCHECK CMD curl -f http://localhost:8042/ || exit 1
 

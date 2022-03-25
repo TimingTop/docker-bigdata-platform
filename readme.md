@@ -10,3 +10,16 @@ windows 实测可行
 
 ## 3. flink 
 依赖 hadoop 的镜像
+
+## 4. kafka 3.1, 不依赖 zookeeper
+
+
+
+
+## docker 基本命令
+```sh
+sudo docker pull debian
+
+sudo docker run --name debian-test -it debian bash
+
+```

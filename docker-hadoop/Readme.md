@@ -6,11 +6,11 @@ hadoop 最基本的项目： base  namenode  datanode
 
 1. 先build base 镜像
 
-docker build -t timing2021/hadoop-base:1.0.0-hadoop3.2.2-java11 ./base
+docker build -t timing2022/hadoop-base:1.0.0-hadoop3.3.2-java11 ./base
 
 
-docker build -t timing2021/hadoop-namenode ./namenode
-docker build -t timing2021/hadoop-datanode ./datanode
+docker build -t timing2022/hadoop-namenode ./namenode
+docker build -t timing2022/hadoop-datanode ./datanode
 
 2. docker-compose
 docker-compose config
