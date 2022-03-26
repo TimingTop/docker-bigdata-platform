@@ -2,7 +2,7 @@
 
 https://github.com/big-data-europe/docker-hadoop
 
-hadoop 最基本的项目： base  namenode  datanode
+## hadoop 最基本的项目： base  namenode  datanode
 
 1. 先build base 镜像
 
@@ -25,35 +25,43 @@ docker-compose up
 
 namenode: http://127.0.0.1:9870
 
+## hadoop 进阶项目： yarn (resourcemanager + nodemanager + proxyserver)
 
-hadoop 进阶项目： yarn (resourcemanager + nodemanager + proxyserver)
-
+4. yarn 相关功能
 /bin/yarn  resourcemanager
 /bin/yarn  nodemanager
 /bin/yarn proxyserver
 
-docker build -t timing2022/hadoop-resourcemanager ./resourcemanager
-docker build -t timing2022/hadoop-nodemanager ./nodemanager
+sudo docker build -t timing2022/hadoop-resourcemanager ./resourcemanager
+sudo docker build -t timing2022/hadoop-nodemanager ./nodemanager
+sudo docker build -t timing2022/hadoop-proxyserver ./proxyserver
 
 
-hadoop 进阶项目： historyserver
-docker build -t timing2022/hadoop-historyserver ./historyserver
+## hadoop 进阶项目： historyserver   job 的历史保存期
+sudo docker build -t timing2022/hadoop-historyserver ./historyserver
 
 
 
-环境成功测试
-namenode: http://127.0.0.1:9870/
-datanode: http://127.0.0.1:9864/
+## 环境成功测试
+namenode: http://127.0.0.1:9870/       
+          http://192.168.31.153:9870/
+datanode: http://127.0.0.1:9864/       
+          http://192.168.31.153:9864/
 
-resourcemanager: http://127.0.0.1:8088/cluster
-nodemanager: http://127.0.0.1:8042/node
+resourcemanager: http://127.0.0.1:8088/cluster     
+                 http://192.168.31.153:8088/cluster
+nodemanager: http://127.0.0.1:8042/node            
+             http://192.168.31.153:8042/node
 
-historyserver: http://127.0.0.1:8188/applicationhistory
+historyserver: http://127.0.0.1:8188/applicationhistory    
+               http://192.168.31.153:8188/applicationhistory
 
-环境搭建好，进行简单测试，跳到自己开发的 hadoop job
+-- 虚拟机的地址
 
 
-docker build -t timing2022/hadoop-wordcount ./job
+## 环境搭建好，进行简单测试，跳到自己开发的 hadoop job
+
+sudo docker build -t timing2022/hadoop-wordcount ./job
 
 // 创建输入文件夹
 docker run --network docker-hadoop_hadoop --env-file hadoop.env timing2022/hadoop-base:1.0.0-hadoop3.3.2-java11 hdfs dfs -mkdir -p /demo1/input/
