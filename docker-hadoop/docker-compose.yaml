@@ -36,46 +36,46 @@ services:
     ports:
       - 9864:9864
   
-  resourcemanager:
-    image: timing2022/hadoop-resourcemanager
-    container_name: resourcemanager
-    networks:
-      - hadoop
-    environment:
-      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
-    env_file:
-      - ./hadoop.env
-    ports:
-      - 8088:8088
+  # resourcemanager:
+  #   image: timing2022/hadoop-resourcemanager
+  #   container_name: resourcemanager
+  #   networks:
+  #     - hadoop
+  #   environment:
+  #     SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+  #   env_file:
+  #     - ./hadoop.env
+  #   ports:
+  #     - 8088:8088
   
-  nodemanager1:  ## 不知道为啥用 nodemanager 就报 confit 
-    image: timing2022/hadoop-nodemanager
-    container_name: nodemanager
-    networks:
-      - hadoop
-    environment:
-      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
-    volumes:
-      - hadoop_historyserver:/hadoop/yarn/timeline
-    env_file:
-      - ./hadoop.env
-    ports:
-      - 8042:8042
+  # nodemanager1:  ## 不知道为啥用 nodemanager 就报 confit 
+  #   image: timing2022/hadoop-nodemanager
+  #   container_name: nodemanager
+  #   networks:
+  #     - hadoop
+  #   environment:
+  #     SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+  #   volumes:
+  #     - hadoop_historyserver:/hadoop/yarn/timeline
+  #   env_file:
+  #     - ./hadoop.env
+  #   ports:
+  #     - 8042:8042
 
-  historyserver:
-    image: timing2022/hadoop-historyserver
-    container_name: historyserver
-    restart: always
-    networks:
-      - hadoop
-    environment:
-      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
-    volumes:
-      - hadoop_historyserver:/hadoop/yarn/timeline
-    env_file:
-      - ./hadoop.env
-    ports:
-      - 8188:8188
+  # historyserver:
+  #   image: timing2022/hadoop-historyserver
+  #   container_name: historyserver
+  #   restart: always
+  #   networks:
+  #     - hadoop
+  #   environment:
+  #     SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+  #   volumes:
+  #     - hadoop_historyserver:/hadoop/yarn/timeline
+  #   env_file:
+  #     - ./hadoop.env
+  #   ports:
+  #     - 8188:8188
     
 ## docker volume ls | grep hadoop_datanode
 ## docker volume inspect docker-bigdata_hadoop_namenode
