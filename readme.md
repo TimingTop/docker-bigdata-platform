@@ -23,3 +23,11 @@ sudo docker pull debian
 sudo docker run --name debian-test -it debian bash
 
 ```
+
+
+
+
+```
+sudo docker-compose up
+
+```
