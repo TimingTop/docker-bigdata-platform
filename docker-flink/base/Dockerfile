@@ -1,4 +1,4 @@
-FROM timing2021/hadoop-base:1.0.0-hadoop3.2.2-java11
+FROM timing2022/hadoop-base:1.0.0-hadoop3.3.2-java11
 # FROM debian
 
 ## /etc/apt/sources.list
@@ -22,11 +22,11 @@ FROM timing2021/hadoop-base:1.0.0-hadoop3.2.2-java11
 RUN curl -O https://dist.apache.org/repos/dist/release/flink/KEYS
 RUN gpg --import KEYS
 
-ENV FLINK_VERSION=1.12.1
-ENV SCALA_VERSION=2.11
+ENV FLINK_VERSION=1.15.0
+ENV SCALA_VERSION=2.12
 
 # https://downloads.apache.org/flink/flink-1.12.1/flink-1.12.1-bin-scala_2.11.tgz
-ENV FLINK_URL=https://downloads.apache.org/flink/flink-$FLINK_VERSION/flink-$FLINK_VERSION-bin-scala_$SCALA_VERSION.tgz
+ENV FLINK_URL=http://archive.apache.org/dist/flink/flink-$FLINK_VERSION/flink-$FLINK_VERSION-bin-scala_$SCALA_VERSION.tgz
 
 RUN set -x \
     && curl -fSL "$FLINK_URL" -o /tmp/flink.tgz \

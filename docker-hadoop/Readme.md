@@ -6,11 +6,11 @@ https://github.com/big-data-europe/docker-hadoop
 
 1. 先build base 镜像
 
-sudo docker build -t timing2022/hadoop-base:1.0.0-hadoop3.3.2-java11 ./base
+sudo docker build -t timing2022/hadoop-base:1.0.0-hadoop3.3.2-java11 ./docker-hadoop/base
 
 
-sudo docker build -t timing2022/hadoop-namenode ./namenode
-sudo docker build -t timing2022/hadoop-datanode ./datanode
+sudo docker build -t timing2022/hadoop-namenode ./docker-hadoop/namenode
+sudo docker build -t timing2022/hadoop-datanode ./docker-hadoop/datanode
 
 2. docker-compose
 sudo apt-get install docker-compose
