@@ -26,11 +26,14 @@ ENV FLINK_VERSION=1.15.0
 ENV SCALA_VERSION=2.12
 
 # https://downloads.apache.org/flink/flink-1.12.1/flink-1.12.1-bin-scala_2.11.tgz
-ENV FLINK_URL=http://archive.apache.org/dist/flink/flink-$FLINK_VERSION/flink-$FLINK_VERSION-bin-scala_$SCALA_VERSION.tgz
+ENV FLINK_URL=http://mirrors.aliyun.com/apache/flink/flink-$FLINK_VERSION/flink-$FLINK_VERSION-bin-scala_$SCALA_VERSION.tgz
+ENV FLINK_ASC_URL=https://downloads.apache.org/flink/flink-1.15.0/flink-1.15.0-bin-scala_2.12.tgz
 
 RUN set -x \
-    && curl -fSL "$FLINK_URL" -o /tmp/flink.tgz \
-    && curl -fSL "$FLINK_URL.asc" -o /tmp/flink.tgz.asc \
+    && curl -fSL "$FLINK_URL" -o /tmp/flink.tgz
+
+RUN set -x \
+    && curl -fSL "$FLINK_ASC_URL.asc" -o /tmp/flink.tgz.asc \
     && gpg --verify /tmp/flink.tgz.asc \
     && tar -xvzf /tmp/flink.tgz -C /opt/ \
     && rm /tmp/flink.tgz*

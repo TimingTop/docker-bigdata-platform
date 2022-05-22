@@ -32,13 +32,13 @@ namenode: http://127.0.0.1:9870
 /bin/yarn  nodemanager
 /bin/yarn proxyserver
 
-sudo docker build -t timing2022/hadoop-resourcemanager ./resourcemanager
-sudo docker build -t timing2022/hadoop-nodemanager ./nodemanager
-sudo docker build -t timing2022/hadoop-proxyserver ./proxyserver
+sudo docker build -t timing2022/hadoop-resourcemanager ./docker-hadoop/resourcemanager
+sudo docker build -t timing2022/hadoop-nodemanager ./docker-hadoop/nodemanager
+sudo docker build -t timing2022/hadoop-proxyserver ./docker-hadoop/proxyserver
 
 
 ## hadoop 进阶项目： historyserver   job 的历史保存期
-sudo docker build -t timing2022/hadoop-historyserver ./historyserver
+sudo docker build -t timing2022/hadoop-historyserver ./docker-hadoop/historyserver
 
 
 

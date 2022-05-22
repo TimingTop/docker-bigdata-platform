@@ -1,3 +1,19 @@
+## build all image
+```sh
+docker build -t timing2022/hadoop-base:1.0.0-hadoop3.3.2-java11 ./docker-hadoop/base
+docker build -t timing2022/hadoop-namenode ./docker-hadoop/namenode
+docker build -t timing2022/hadoop-datanode ./docker-hadoop/datanode
+docker build -t timing2022/hadoop-resourcemanager ./docker-hadoop/resourcemanager
+docker build -t timing2022/hadoop-nodemanager ./docker-hadoop/nodemanager
+docker build -t timing2022/hadoop-proxyserver ./docker-hadoop/proxyserver
+docker build -t timing2022/hadoop-historyserver ./docker-hadoop/historyserver
+docker build -t timing2022/flink-base:1.0.0-flink1.15.0-java11 ./docker-flink/base
+
+
+```
+
+
+
 1. 先build base 镜像, 因为要走的是 flink on yarn ,所以要依赖 hadoop 的image
 
 docker build -t timing2022/flink-base:1.0.0-flink1.15.0-java11 ./docker-flink/base
@@ -41,17 +57,17 @@ export HADOOP_CLASSPATH=`hadoop classpath`
 
 跑 flink on yarn 的 demo
 
-docker build -t timing2021/flink-wordcount ./job
+docker build -t timing2022/flink-wordcount ./job
 
 // 创建输入文件夹
-docker run --network docker-hadoop_hadoop --env-file hadoop.env timing2021/hadoop-base:1.0.0-hadoop3.2.2-java11 hdfs dfs -mkdir -p /demo2/input/
+docker run --network docker-flink_hadoop --env-file hadoop.env timing2022/flink-base:1.0.0-flink1.15.0-java11 hdfs dfs -mkdir -p /demo2/input/
 
 // 把需要统计的文件先上传到 hadoop 中
-docker run --network docker-hadoop_hadoop --env-file hadoop.env timing2021/hadoop-base:1.0.0-hadoop3.2.2-java11 hdfs dfs -copyFromLocal -f opt/hadoop-3.2.2/README.txt /demo2/input/
+docker run --network docker-flink_hadoop --env-file hadoop.env timing2022/flink-base:1.0.0-flink1.15.0-java11 hdfs dfs -copyFromLocal -f opt/hadoop-3.3.2/README.txt /demo2/input/
 // 运行统计程序
-docker run --network docker-hadoop_hadoop --env-file ../docker-hadoop/hadoop.env timing2021/flink-wordcount
+docker run --network docker-flink_hadoop --env-file hadoop.env timing2022/flink-wordcount
 // 显示统计结果
-docker run --network docker-hadoop_hadoop --env-file hadoop.env timing2021/hadoop-base:1.0.0-hadoop3.2.2-java11 hdfs dfs -cat /demo2/output
+docker run --network docker-flink_hadoop --env-file hadoop.env timing2022/flink-base:1.0.0-flink1.15.0-java11 hdfs dfs -cat /demo2/output
 
 // 清楚文件
 docker run --network docker-hadoop_hadoop --env-file hadoop.env timing2021/hadoop-base:1.0.0-hadoop3.2.2-java11 hdfs dfs -rm -r /demo2/output/
