@@ -84,3 +84,7 @@ hadoop dfsadmin -safemode leave
 
 然后  docker-compose restart
 
+
+
+## mysql
+
