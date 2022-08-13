@@ -1,4 +1,4 @@
-FROM timing2022/hadoop-base:1.0.0-hadoop3.3.2-java11
+FROM timing2022/hadoop-base:1.0.0-hadoop3.3.2-j8
 
 ## /etc/apt/sources.list
 ## apt-cache search net-tools
