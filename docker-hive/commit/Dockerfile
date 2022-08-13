@@ -1,4 +1,4 @@
-FROM timing2022/hadoop-base:1.0.0-hadoop3.3.2-java11
+FROM timing2022/hive
 
 ## /etc/apt/sources.list
 ## apt-cache search net-tools
@@ -21,8 +21,10 @@ RUN chmod a+x /run.sh
 
 COPY mysql-connector-java-8.0.30.jar "$HIVE_HOME"/lib
 
-COPY hive-site.xml "$HIVE_HOME"/conf
-
 EXPOSE 9083
 
 CMD ["/run.sh"]
+
+## /opt/apache-hive-3.1.2-bin/conf
+
+## hive-default.xml

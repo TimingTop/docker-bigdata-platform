@@ -9,6 +9,7 @@ ENV SPARK_VERSION=3.0.1
 ENV HADOOP_VERSION=3.2
 
 # https://www.apache.org/dyn/closer.lua/spark/spark-3.0.1/spark-3.0.1-bin-hadoop3.2.tgz
+# https://archive.apache.org/dist/spark/spark-3.0.1/spark-3.0.1-bin-hadoop3.2.tgz
 ENV SPARK_URL=https://downloads.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz
 
 RUN set -x \

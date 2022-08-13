@@ -12,7 +12,7 @@ services:
     volumes:  # 宿主机目录：容器目录
       - hadoop_namenode:/hadoop/dfs/name
     environment:
-      - CLUSTER_NAME=demo1
+      - CLUSTER_NAME=demo2
     env_file:
       - ./hadoop.env
     ports: # 宿主端口：容器端口  9870 web ui , 9000 hdfs
@@ -80,12 +80,13 @@ services:
   mysql:
     image: mysql:debian
     container_name: mysql8
+    hostname: mysql8
     restart: always
     networks:
       - hadoop
     environment:
       - "MYSQL_ROOT_PASSWORD=root"
-      - "MYSQL_DATABASE=test"
+      - "MYSQL_DATABASE=root"
     ports: # 宿主机：容器
       - 3306:3306
 
@@ -96,6 +97,8 @@ services:
     networks:
       - hadoop
     #environment:
+    env_file:
+      - ./hadoop.env
     ports:
       - 9083:9083
     depends_on:
