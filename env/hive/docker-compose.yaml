@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   namenode:
-    image: timing2022/hadoop-namenode
+    image: timing2022/hadoop-namenode-j8
    # build:
    #   context: ../
    #   dockerfile: namenode/Dockerfile
@@ -20,7 +20,7 @@ services:
       - 9000:9000
 
   datanode:
-    image: timing2022/hadoop-datanode
+    image: timing2022/hadoop-datanode-j8
     # build:
     #   context: ../
     #   dockerfile: datanode/Dockerfile
@@ -37,7 +37,7 @@ services:
       - 9864:9864
   
   resourcemanager:  ## yarn 
-    image: timing2022/hadoop-resourcemanager
+    image: timing2022/hadoop-resourcemanager-j8
     container_name: resourcemanager
     networks:
       - hadoop
@@ -49,7 +49,7 @@ services:
       - 8088:8088
   
   nodemanager:  ## 不知道为啥用 nodemanager 就报 confit   yarn 
-    image: timing2022/hadoop-nodemanager
+    image: timing2022/hadoop-nodemanager-j8
     container_name: nodemanager
     networks:
       - hadoop
@@ -63,7 +63,7 @@ services:
       - 8042:8042
 
   historyserver:
-    image: timing2022/hadoop-historyserver
+    image: timing2022/hadoop-historyserver-j8
     container_name: historyserver
     restart: always
     networks:
@@ -91,7 +91,7 @@ services:
       - 3306:3306
 
   hive:
-    image: timing2022/hive
+    image: timing2022/hive-j8
     container_name: hive
     restart: always
     networks:

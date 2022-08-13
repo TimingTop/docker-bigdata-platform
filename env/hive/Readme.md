@@ -24,4 +24,4 @@ mysql:   docker exec -it
         mysql
         show databases;
 
-hive:  
+hive:  hive
