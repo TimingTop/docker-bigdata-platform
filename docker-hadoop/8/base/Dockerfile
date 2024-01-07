@@ -29,7 +29,7 @@ RUN mv /usr/lib/openlogic-openjdk-8u342-b07-linux-x64 /usr/lib/openjdk8
 
 ENV JAVA_HOME=/usr/lib/openjdk8
 
-RUN curl -O https://dist.apache.org/repos/dist/release/hadoop/common/KEYS
+RUN curl -O -k https://dist.apache.org/repos/dist/release/hadoop/common/KEYS
 RUN gpg --import KEYS
 
 ENV HADOOP_VERSION 3.3.2
@@ -40,8 +40,8 @@ ENV HADOOP_VERSION 3.3.2
 ENV HADOOP_URL https://downloads.apache.org/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 ENV HADOOP_URL_Ali http://mirrors.aliyun.com/apache/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 RUN set -x \
-    && curl -fSL "$HADOOP_URL_Ali" -o /tmp/hadoop.tar.gz \
-    && curl -fSL "$HADOOP_URL.asc" -o /tmp/hadoop.tar.gz.asc \
+    && curl -kfSL "$HADOOP_URL_Ali" -o /tmp/hadoop.tar.gz \
+    && curl -kfSL "$HADOOP_URL.asc" -o /tmp/hadoop.tar.gz.asc \
     && gpg --verify /tmp/hadoop.tar.gz.asc \
     && tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
     && rm /tmp/hadoop.tar.gz*
