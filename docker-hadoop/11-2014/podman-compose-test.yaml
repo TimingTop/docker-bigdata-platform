@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  namenode:
+    image: localhost/timing2024/hadoop-namenode
+    container_name: namenode
+    networks:
+      - hadoop
+    volumes:  # 宿主机目录：容器目录
+      - hadoop_namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=demo1
+    env_file:
+      - ./hadoop.env
+    ports: # 宿主端口：容器端口  9870 web ui , 9000 hdfs
+      - 9870:9870
+      - 9000:9000
+
+  datanode:
+    image: localhost/timing2024/hadoop-datanode
+    # build:
+    #   context: ../
+    #   dockerfile: datanode/Dockerfile
+    container_name: datanode
+    networks:
+      - hadoop
+    volumes:  # 宿主机目录：容器目录
+      - hadoop_datanode:/hadoop/dfs/data
+    env_file:
+      - ./hadoop.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    ports:
+      - 9864:9864
+
+## docker volume ls | grep hadoop_datanode
+## docker volume inspect docker-bigdata_hadoop_namenode
+volumes:
+  hadoop_datanode:
+  hadoop_namenode:
+  hadoop_historyserver:
+
+# default  birdge
+networks:
+  hadoop:
+ #   external:
+ #     name: hadoop

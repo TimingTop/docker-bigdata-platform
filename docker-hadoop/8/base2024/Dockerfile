@@ -2,32 +2,45 @@ FROM debian
 
 ## /etc/apt/sources.list
 ## apt-cache search net-tools
+RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+
+##
+## echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | tee /etc/apt/sources.list.d/webupd8team-java.list
+## echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | tee /etc/apt/sources.list.d/webupd8team-java.list
+## apt-get install gnupg
+## apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
+## apt list | grep jdk-8
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-    openjdk-11-jdk \
     net-tools \
     curl \
     netcat \
     gnupg \
     libsnappy-dev \
+    openjdk-8-jdk
     && rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+## COPY openlogic-openjdk-8u342-b07-linux-x64.tar.gz /tmp/
+## RUN tar -zxvf /tmp/openlogic-openjdk-8u342-b07-linux-x64.tar.gz -C /usr/lib/
+## RUN mv /usr/lib/openlogic-openjdk-8u342-b07-linux-x64 /usr/lib/openjdk8
 
-RUN curl -O https://dist.apache.org/repos/dist/release/hadoop/common/KEYS
+ENV JAVA_HOME=/usr/lib/openjdk8
+
+RUN curl -O -k https://dist.apache.org/repos/dist/release/hadoop/common/KEYS
 RUN gpg --import KEYS
 
 ENV HADOOP_VERSION 3.3.6
 
 # https://downloads.apache.org/hadoop/common/hadoop-3.3.2/hadoop-3.3.2.tar.gz
 # http://mirrors.aliyun.com/apache/hadoop/common/hadoop-3.3.2/hadoop-3.3.2.tar.gz
+
 ENV HADOOP_URL https://downloads.apache.org/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 ENV HADOOP_URL_Ali http://mirrors.aliyun.com/apache/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 RUN set -x \
-    && curl -fSL "$HADOOP_URL_Ali" -o /tmp/hadoop.tar.gz \
-    && curl -fSL "$HADOOP_URL.asc" -o /tmp/hadoop.tar.gz.asc \
+    && curl -kfSL "$HADOOP_URL_Ali" -o /tmp/hadoop.tar.gz \
+    && curl -kfSL "$HADOOP_URL.asc" -o /tmp/hadoop.tar.gz.asc \
     && gpg --verify /tmp/hadoop.tar.gz.asc \
     && tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
     && rm /tmp/hadoop.tar.gz*
@@ -42,7 +55,8 @@ ENV HADOOP_HOME=/opt/hadoop-$HADOOP_VERSION
 ENV HADOOP_CONF_DIR=/etc/hadoop
 ENV MULTIHOMED_NETWORK=1
 ENV USER=root
-ENV PATH $HADOOP_HOME/bin/:$PATH
+#ENV PATH $HADOOP_HOME/bin/:$PATH
+ENV PATH $JAVA_HOME/bin/:$HADOOP_HOME/bin/:$PATH
 
 ADD entrypoint.sh /entrypoint.sh
 

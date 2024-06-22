@@ -1,3 +1,25 @@
+
+
+## docker proxy
+1. 登录 aliyun
+   https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors
+2. 镜像工具-》 镜像加速器
+   加速器地址
+
+3.  pull  image
+
+```
+
+podman pull  xxxxx.com/library/busybox:latest
+
+
+
+
+
+```
+
+
+
 # 大数据平台相关组件的 docker 版
 windows 实测可行
 

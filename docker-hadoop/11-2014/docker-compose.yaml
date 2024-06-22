@@ -1,0 +1,91 @@
+version: '3'
+
+services:
+  namenode:
+    image: timing2022/hadoop-namenode
+   # build:
+   #   context: ../
+   #   dockerfile: namenode/Dockerfile
+    container_name: namenode
+    networks:
+      - hadoop
+    volumes:  # 宿主机目录：容器目录
+      - hadoop_namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=demo1
+    env_file:
+      - ./hadoop.env
+    ports: # 宿主端口：容器端口  9870 web ui , 9000 hdfs
+      - 9870:9870
+      - 9000:9000
+
+  datanode:
+    image: timing2022/hadoop-datanode
+    # build:
+    #   context: ../
+    #   dockerfile: datanode/Dockerfile
+    container_name: datanode
+    networks:
+      - hadoop
+    volumes:  # 宿主机目录：容器目录
+      - hadoop_datanode:/hadoop/dfs/data
+    env_file:
+      - ./hadoop.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    ports:
+      - 9864:9864
+  
+  resourcemanager:  ## yarn 
+    image: timing2022/hadoop-resourcemanager
+    container_name: resourcemanager
+    networks:
+      - hadoop
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 8088:8088
+  
+  nodemanager:  ## 不知道为啥用 nodemanager 就报 confit   yarn 
+    image: timing2022/hadoop-nodemanager
+    container_name: nodemanager
+    networks:
+      - hadoop
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+    volumes:
+      - hadoop_historyserver:/hadoop/yarn/timeline
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 8042:8042
+
+  historyserver:
+    image: timing2022/hadoop-historyserver
+    container_name: historyserver
+    restart: always
+    networks:
+      - hadoop
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+    volumes:
+      - hadoop_historyserver:/hadoop/yarn/timeline
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 8188:8188
+    
+## docker volume ls | grep hadoop_datanode
+## docker volume inspect docker-bigdata_hadoop_namenode
+volumes:
+  hadoop_datanode:
+  hadoop_namenode:
+  hadoop_historyserver:
+
+# default  birdge
+networks:
+  hadoop:
+ #   external:
+ #     name: hadoop
