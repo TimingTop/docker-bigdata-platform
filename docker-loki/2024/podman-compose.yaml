@@ -1,0 +1,48 @@
+version: '3'
+services:
+  #数据库
+  loki:
+    container_name: loki
+    image: grafana/loki
+    ports:
+      - "3100:3100"
+      - "9095:9095"
+    volumes:
+      - ./loki/data:/var/loki
+      - ./loki/conf/loki-config.yaml:/etc/loki/local-config.yaml
+    user: root               #不开报错
+    command: ["-config.file=/etc/loki/local-config.yaml"]
+
+
+  #收集
+  promtail:
+    image: grafana/promtail
+    container_name: promtail
+    restart: always
+    ports:
+      - 9080:9080
+    volumes:    # 宿主机目录 ： 容器目录
+      - ./promtail/conf/promtail-config.yaml:/opt/promtail-config.yaml
+      - /data/server/logs/:/data/server/logs/                         #文件日志路径挂到容器
+    privileged: true           #不开报错
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 200M
+    logging:
+        driver: json-file
+        options:
+          max-size: "200m"
+          max-file: "4"
+    command: ["-config.file=/opt/promtail-config.yaml"]
+
+
+#web界面。 有的就不需要再部署了，都一样
+  grafana:
+    image: grafana/grafana
+    container_name: "grafana"
+    restart: "always"
+    ports:
+      - 3000:3000
