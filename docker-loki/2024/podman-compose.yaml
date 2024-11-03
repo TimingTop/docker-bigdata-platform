@@ -18,7 +18,7 @@ services:
   promtail:
     image: grafana/promtail
     container_name: promtail
-    restart: always
+    restart: always2
     ports:
       - 9080:9080
     volumes:    # 宿主机目录 ： 容器目录
